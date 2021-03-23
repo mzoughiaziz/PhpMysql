@@ -46,20 +46,37 @@
 </nav>
 
 <form action="insertSup.php" method="POST">
+
 <div class="uk-container-xsmall"  style="margin-left: auto;
     margin-right: auto;
     width: 50em">
+    <?php 
+    $fullUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    if(strpos($fullUrl, "name=error") == true){
+      echo "<p style='color:red;'> Supplier's name field is invalid! </p>";
+    }else if(strpos($fullUrl, "emptyfields") == true){
+      echo "<p style='color:red;'> No data found! </p>";
+    }else if(strpos($fullUrl, "cpf=error") == true){
+      echo "<p style='color:red;'> CPF field is invalid! </p>";
+    }else if(strpos($fullUrl, "phone=error") == true){
+      echo "<p style='color:red;'> Phone number field is invalid! </p>";
+    }else if(strpos($fullUrl, "regdate=error") == true){
+      echo "<p style='color:red;'> Registration date field is invalid! </p>";
+    }else if(strpos($fullUrl, "age=error") == true){
+      echo "< style='color:red;'> Age of supplier is not valid ! </p>";
+    }
+?>
    <div class="mb-3" style="">
     <label class="form-label">Supplier's name</label>
     <input type="text" class="uk-input" name="name">
   </div>
    Type of Supplier
-  <select  class="uk-select"  name="typeSup" onChange="showDiv('hidden_div',this)" >
+  <select  class="uk-select"  name="typeSup" onChange="showDiv('hidden_div','hidden_div2',this)" >
     <option value="2" selected> Select type</option>
     <option value="0"> Company </option>
     <option value="1" >Individual </option>
   </select> <br>
-  <div name="hidden_div2">
+  <div id="hidden_div2">
     Company
      <select name="company_name" id="comp" class="uk-select" value="Individual">
       <option value="" selected> select a company </option>
@@ -75,25 +92,64 @@
       <?php } ?>
   </select> <br>
 
-  <a href="inc/comp.php" class="uk-button uk-button-default" >Add company</a>
+  <a href="addComp.php" class="uk-button uk-button-default" >Add company</a>
   </div>
   <div class="mb-3">
-     CPF
+     CPF/CNPJ
     <input type="number" class="uk-input" name="cpf" id="cpf">
   </div>
   <div class="mb-3">
     <label class="form-label">Registration date / time</label>
     <input type="date" class="uk-input" name="reg_date">
   </div>
- 
-  <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label><input class="uk-radio" type="radio" name="radio2" checked>  Legal entity </label>
-            <label><input class="uk-radio" type="radio" name="radio2" onClick="showMun('hidden_div2',this)"> Legal person</label>
-        </div>
+  <label class="form-label">Supplier's state</label>
+  <select class="uk-select uk-margin" name="uf" id='uf' required>
+     <option selected>Select the company's state</option>
+     <option value="AC">AC</option>
+     <option value="AL">AL</option>
+     <option value="AM">AM</option>
+     <option value="AP">AP</option>
+     <option value="BA">BA</option>
+     <option value="CE">CE</option>
+     <option value="DF">DF</option>
+     <option value="ES">ES</option>
+     <option value="GO">GO</option>
+     <option value="MA">MA</option>
+     <option value="MG">MG</option>
+     <option value="MS">MS</option>
+     <option value="MT">MT</option>
+     <option value="PA">PA</option>
+     <option value="PB">PB</option>
+     <option value="PE">PE</option>
+     <option value="PI">PI</option>
+     <option value="PR">PR</option>
+     <option value="RJ">RJ</option>
+     <option value="RN">RN</option>
+     <option value="RO">RO</option>
+     <option value="RR">RR</option>
+     <option value="RS">RS</option>
+     <option value="SC">SC</option>
+     <option value="SE">SE</option>
+     <option value="SP">SP</option>
+     <option value="TO">TO</option>
+     </select>  
+  
+  <div class="uk-margin">
+  <label class="form-label"> Legal situation </label>
+        <select class="uk-select" name="leg" id="leg_ent" onChange="showMun(mun_hid,this)">
+          <option value="">  Select Legal situation  </option>
+          <option value="legal_entity">  Legal entity </option>
+          <option value="legal_person" > Legal person </option>
+        </select>
+  </div>
 
-  <div id="hidden_div2">
+  <div id="mun_hid" style="display:none">
     <label class="form-label">Municipality registration</label>
     <input type="number" class="uk-input" name="mun_reg">
+  </div>
+  <div id="mun_hid2" style="display:none">
+    <label class="form-label">State registration</label>
+    <input type="number" class="uk-input" name="state_reg">
   </div>
 
   <div class="mb-3">
@@ -108,34 +164,65 @@
     <input type="number" class="uk-input" name="rg">
   </div>
 
-  <button type="submit" class="uk-button uk-button-default" name="submit" id="myLink" >Submit</button><br>
+  <button type="submit" class="uk-margin uk-button uk-button-default" name="submit" id="submit" >Submit</button><br>
 </form>
-<?php 
-    $fullUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    if(strpos($fullUrl, "name=error") == true){
-      echo "<p> Supplier's name field is invalid! </p>";
-    }else if(strpos($fullUrl, "emptyfields") == true){
-      echo "<p> No data found! </p>";
-    }else if(strpos($fullUrl, "cpf=error") == true){
-      echo "<p> CPF field is invalid! </p>";
-    }else if(strpos($fullUrl, "phone=error") == true){
-      echo "<p> Phone number field is invalid! </p>";
-    }else if(strpos($fullUrl, "regdate=error") == true){
-      echo "<p> Registration date field is invalid! </p>";
-    }else if(strpos($fullUrl, "age=error") == true){
-      echo "<p> Age of supplier is not valid ! </p>";
-    }
-?>
+
  <script>
-    function showDiv(divId, element)
+    function showDiv(divId, divId2, element)
   {
     document.getElementById(divId).style.display = element.value == 1 ? 'block' : 'none';
+    document.getElementById(divId2).style.display = element.value == 0 ? 'block' : 'none';
+  }
+
+document.querySelector('#leg_ent').addEventListener('change', function() {
+  if (document.querySelector('#leg_ent').value == 'legal_entity') {
+      document.querySelector('#mun_hid').style.display = 'block';
+  }else {
+    document.querySelector('#mun_hid').style.display = 'none';
+  }
+});
+
+document.querySelector('#uf').addEventListener('change', function() {
+  if (document.querySelector('#leg_ent').value == 'legal_entity') {
+    var uf = document.querySelector('#uf').value;
+    if (uf == 'DF') {
+      document.querySelector('#mun_hid2').style.display = 'block';
+      document.querySelector('#mun_hid').style.display = 'none';
+    } else {
+      document.querySelector('#mun_hid').style.display = 'block';
+      document.querySelector('#mun_hid2').style.display = 'none';
+    }
+  }
+});
+
+
+function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
+
+   document.querySelector('#submit').addEventListener('click', function() {
+   var uf = document.querySelector('#uf').value;
+   var d = document.querySelector('#birth_date').value;
+   var birthdate = d.toString();
+   var age = getAge(birthdate);
+   if((age<18) && (uf == 'PR'))
+   {
+      alert("Validation failed Supplier is underage (<18 years old)");
+      returnToPreviousPage();
+      return false;
+   }else if(!document.form.name.value == ""){
+     alert("New Supplier Added!");
+     return true;
+   }
+  });
    
- }
- function showMun(divId2, element){
-  document.getElementById(divId2).style.display = element.value == 1 ? 'block' : 'none';
- }
-    
    </script>
   </body>
 </html>

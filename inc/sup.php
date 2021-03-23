@@ -14,7 +14,7 @@
       
   </head>
   <body>
-  <nav class="uk-navbar-container" uk-navbar >
+  <nav class="uk-navbar-container">
     <div class="uk-navbar">
         <ul class="uk-navbar-nav">
             <li ><a href="sup.php"> Suppliers</a></li>
@@ -41,7 +41,7 @@ require 'db_conn.php';
    <br />
    <div id="result"></div>
 
-<a href="../popup.php"><button  class="uk-button uk-button-default">Add Sup plier</button></a><br>
+<a href="../popup.php"><button  class="uk-button uk-button-default uk-margin">Add Sup plier</button></a><br>
 </div>
   </body>
   </html>

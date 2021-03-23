@@ -26,13 +26,14 @@
     <thead>
       <tr>
          <th>Supplier name</th>
-         <th>Register identity (CPF/CNJP)</th>
+         <th>Register identity (CPF/CNPJ)</th>
          <th>Register Date</th>
          <th>Phone number</th>
          <th>Birth date</th>
          <th>Register number</th>
          <th>Company name</th>
          <th>Municipality registration</th>
+         <th>State registration</th>
       </tr>
     </thead>
     ';
@@ -48,6 +49,7 @@
      <td>'.$row["rg"].'</td>
      <td>'.$row["company_name"].'</td>   
      <td>'.$row["mun_reg"].'</td> 
+     <td>'.$row["state_reg"].'</td> 
     </tr>
     ';
     }
